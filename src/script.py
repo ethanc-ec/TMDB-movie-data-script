@@ -9,6 +9,7 @@ from concurrent.futures import ThreadPoolExecutor
 from time import sleep
 from dotenv import load_dotenv
 import os
+from tqdm import tqdm
 
 def flatten(dictionary, parent_key=False, separator='_'):
     items = []
@@ -50,6 +51,8 @@ def fetch_data(num: int):
     
 
 if __name__ == "__main__":
+    load_dotenv()
+    
     headers = {
         "accept": "application/json",
         "Authorization": f"Bearer {os.getenv('TMDB_API_KEY')}"
@@ -74,15 +77,11 @@ if __name__ == "__main__":
     
     url = "https://api.themoviedb.org/3/movie/", "?language=en-US"
 
-    response = requests.get(url[0] + str(df['id'][0]) + url[1], headers=headers).json()
-
-    response['genres'] = '-'.join([i['name'] for i in response.pop("genres")]) 
-
     with ThreadPoolExecutor(max_workers=8) as executor:
-        results = list(executor.map(lambda x: fetch_data(x), df['id']), total=df.shape[0])
+        results = list(tqdm(executor.map(lambda x: fetch_data(x), df['id']), total=df.shape[0]))
         
     with ThreadPoolExecutor(max_workers=16) as executor:
-        results = list(executor.map(process_data, results), total=df.shape[0])
+        results = list(tqdm(executor.map(process_data, results), total=df.shape[0]))
     
     clean_df = pd.DataFrame(results)
     clean_df.to_csv("movies.csv", index=False)
