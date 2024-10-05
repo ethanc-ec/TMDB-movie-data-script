@@ -1,20 +1,23 @@
 [project]
-name = "ba305"
+name = "TMDB-Movie-Data-Fetching-Script"
 version = "0.1.0"
-description = "Add your description here"
+description = "Simple script to fetch nearly all movie data from TMDB API"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "ipykernel>=6.29.5",
-    "ipywidgets>=8.1.5",
-    "jupyter>=1.1.1",
-    "matplotlib>=3.9.2",
     "numpy>=2.1.1",
     "pandas>=2.2.3",
-    "polars>=1.9.0",
+    "pyarrow>=17.0.0",
     "python-dotenv>=1.0.1",
     "requests>=2.32.3",
     "ruff>=0.6.8",
-    "seaborn>=0.13.2",
     "tqdm>=4.66.5",
 ]
+
+[tool.ruff]
+include = ["pyproject.toml"]
+line-length = 120
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = ["G004", "D211", "D213"]

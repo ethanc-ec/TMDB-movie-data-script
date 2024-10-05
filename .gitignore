@@ -164,3 +164,7 @@ cython_debug/
 # Ruff
 .ruff_cache/
 
+# Data files
+errors.txt
+movies.csv
+movies.parquet
