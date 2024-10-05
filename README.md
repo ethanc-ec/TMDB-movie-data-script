@@ -1,4 +1,4 @@
-# TMDB Data Fetching Script
+# TMDB Movie Data Script
 
 ## Setup
 
